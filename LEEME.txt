@@ -1,0 +1,178 @@
+v5.17 - NUEVO: boton "Crear MTTO Correctivo" (arriba, junto a Atras) dentro de AMRTX-7K y AMRTX-ODH. Crea siempre un correctivo NUEVO e independiente (7K->correctivo 7K, ODH->correctivo ODH) con IB, fecha, IM, sede, responsable, coordenadas, quien acompana (Docente / tel 2 'No informa'; si no hay contacto alterno queda vacio) y las fotos del AMRTX que correspondan a 'Pruebas necesarias' (copias independientes). Las demas fotos se toman en el correctivo. Pide confirmacion antes de crear.
+
+v5.16.1 - CORRECCION: en AMRTX con "formato con opciones llenas" ahora SI aparecen las opciones predefinidas (Si/No/N/A, B, etc.). Antes el valor llenado se confundia con el marcador de la lista y no se mostraba.
+
+CAMBIO v5.16: las listas de AMRTX-7K y AMRTX-ODH (boton "Lista" y sugerencias al escribir) muestran solo sitios de CORDOBA
+(7K: 862; ODH: 11). El IB de otro departamento se puede seguir escribiendo a mano.
+
+CAMBIO v5.15: plantilla del mensaje para el NOC (AMRTX-ODH y AMRTX-7K)
+- Boton "Plantilla" arriba, junto a "Atras", dentro de un AMRTX. Abre el texto con el formato exacto de solicitud al NOC, editable, y se
+  envia por WhatsApp (wa.me), se copia al portapapeles o se comparte con otra app.
+- Datos: tecnico y telefono (Opciones, o los del formato), aliado, sede/institucion e ID MINTIC (semilla), IB, docente/cedula/celular/correo
+  (contacto alterno; si es N/A o esta vacio, queda vacio), coordenadas tomadas en sitio ("lat, lon"), IM del formato.
+  En 7K la app pide el N° de OT antes de generar (no se guarda).
+
+CAMBIO v5.14: sitios 7K/ODH desde la semilla de AMRTX y base de AP en Opciones
+- La lista de sitios del 7K y del ODH (campo de IB, lista desplegable, autollenado) sale de la semilla de los formatos AMRTX, solo
+  departamento CORDOBA (7K: 862 sitios; ODH: 11). Si se instala una version nueva de un AMRTX con "Actualizar formato", la lista se
+  actualiza sola. www/semilla.js y www/semilla-odh.js quedan como respaldo y estan generados desde esos mismos formatos.
+  Las listas de AMRTX-7K y AMRTX-ODH no cambian (siguen con todos los sitios de su semilla).
+- "Cargar reporte de AP" ya no esta en las tarjetas de AMRTX: ahora esta en Opciones > "Base de seriales y firmware de las AP".
+  Detecta solo si el reporte cnMaestro es de ODH o de 7K (por los IB; si no puede, por el nombre del archivo; si no, pregunta) y muestra
+  cuantos sitios nuevos y cuantas AP cambiaron. "Actualizar formato" no se toco.
+
+CAMBIO: la app recuerda donde ibas
+- Al cambiar de pestana en AMRTX (Lista de chequeo / Seriales / Fotos) y volver, cada pestana queda en la posicion donde la dejaste.
+- En todos los formatos, al volver de otra pagina (Fotos guardadas, Galeria, etc.) con "Atras", el formato se abre en la misma posicion
+  y con las mismas secciones abiertas. (Si sales al Inicio y reabres el trabajo, empieza arriba, como antes.)
+- AMRTX-7K: en los desplegables de codigos SAP (rack, UPS, bateria, router, etc.) cada opcion muestra tambien la descripcion del equipo
+  (sale de la hoja de listas del propio formato). Lo que se guarda y se exporta sigue siendo solo el codigo.
+
+CAMBIO: lista desplegable de IB en el inicio
+- Junto a cada campo de IB (7K, ODH, AMRTX-ODH y AMRTX-7K) hay un boton "Lista". Abre la lista de sitios de la semilla de ese formato
+  (IB y nombre), con un filtro por IB o nombre (muestra hasta 80 coincidencias). Al tocar un sitio se escribe el IB en el campo.
+
+CAMBIO: seriales y version de software de las AP desde cnMaestro (AMRTX-ODH y AMRTX-7K)
+- Al iniciar un trabajo nuevo, la app busca el ID beneficiario (la parte numerica antes del primer guion del reporte) en los reportes de
+  cnMaestro de Cordoba y completa, en formato limpio y con opciones llenas: serial y version de software de AP exterior 1 (AP-EXT1),
+  AP exterior 2 (AP-EXT2) y AP interior (AP-INT). Se pueden modificar. Sobrescribe el valor que el formato trae lleno.
+- Si el reporte trae dos seriales para la misma AP, no se llena ese serial y la app lo avisa con los dos para que elijas.
+  Si el sitio no esta en el reporte, avisa y los campos quedan como estaban.
+- Datos incluidos: www/ap-data.js (ODH: 11 sitios; 7K: 854 sitios). Para ampliarlos o actualizarlos: en el inicio, boton
+  "Cargar reporte de AP" de cada formato, y subes el .xlsx de cnMaestro (columnas IB, AP, Serial, version; la AP debe terminar en
+  -AP-EXT1, -AP-EXT2 o -AP-INT). Lo cargado reemplaza los datos del mismo sitio.
+- Los trabajos ya empezados no se tocan.
+
+CAMBIO: formatos actualizados y "formato limpio / con opciones llenas"
+- Formatos incluidos en la app: AMRTX-ODH V1.13 (24/11/26) y AMRTX-7K V5.5 (24/11/2026). En equipos que ya tenian el formato anterior,
+  la version nueva queda como la instalada al abrir la app; los trabajos ya empezados siguen con la version con la que empezaron.
+- Al iniciar un trabajo nuevo (o "Nuevo borrador vacio") la app pregunta:
+  * Formato con opciones llenas: carga lo que el formato original ya trae en las celdas de respuesta (N/A, versiones de software,
+    codigos de elementos, fecha del telurometro, etc.). Se pueden modificar. Lo que no se toca sale en el Excel exactamente como viene.
+  * Formato limpio: todo vacio; esos campos tambien salen vacios en el Excel.
+  Continuar un trabajo ya empezado no vuelve a preguntar.
+- "Actualizar formato" tambien lee estos valores de las versiones que subas.
+
+CAMBIO: AMRTX en tres grupos (Lista de chequeo / Seriales / Fotos)
+- En AMRTX-ODH y AMRTX-7K el formulario se separa con botones arriba, cada uno con su avance (ej. "Fotos 12 de 72").
+  * Lista de chequeo: todo lo demas (informacion, si/no/bueno/malo, mediciones escritas, firmas), ordenado por capitulo.
+  * Seriales: solo los espacios de serial, con el nombre del elemento (en ODH conservan el lector de serial).
+  * Fotos: un espacio por foto, con el nombre y el numeral. Los nombres salen de www/names-amrtx.js, que viene del CSV
+    "nombres-amrtx-revision" (columna "Nombre en la app"), sin cambios. Una fila nueva en una version nueva del formato toma
+    un nombre automatico del capitulo.
+- En la lista de chequeo, las filas que tienen foto muestran un boton rojo "Foto pendiente" / verde "Foto lista"; al tocarlo va a esa foto.
+- Las firmas (tecnico y VoBo) siguen en la lista de chequeo. "Coordenadas en sitio" y, en 7K, "Firma de quien repara" van en Fotos.
+- El Excel exportado no cambia.
+
+CAMBIO: imagenes, seriales y firmas en AMRTX
+- En los dos formatos AMRTX, todas las filas que piden "Registre/Inserte una imagen" (tanto la imagen en la celda de respuesta
+  como la de evidencia) tienen: Tomar foto (con marca de agua), Subir foto (sin marca), Galeria (fotos guardadas), N/A y Quitar.
+  Antes las filas con la imagen en la celda de respuesta salian como texto.
+- Solo AMRTX-ODH:
+  * Los datos de quien repara (nombre, cargo, cedula, telefono, correo) y la firma salen de tus datos de tecnico en Opciones.
+  * La firma "Firma VoBo aliado" tambien sale de la firma de Opciones (la firma del F09 se completa sola desde la del tecnico).
+  * Capturas sin tomar foto (Cargar captura, Galeria, N/A, Quitar): 4.3.1, 4.3.5, 4.5.1, 4.5.2, 4.7.7, 4.7.8, 4.8.1, 4.10.6,
+    4.12.3, 4.12.5, 4.12.7, 4.15.4, 4.22.2, 4.23.1, 4.24.1, 4.25.2.
+  * Lector de serial (escribir o escanear codigo de barras/QR) en todas las filas de serial: 4.1.2, 4.2.2, 4.4.2, 4.7.2,
+    4.10.3, 4.12.2, 4.15.2, 4.17.4, 4.17.9 y 4.17.11.
+- Las versiones de formato que ya estaban instaladas se vuelven a leer solas la primera vez que se abren.
+
+CAMBIO: coordenadas de las fotos
+- Cada foto con marca de agua toma el GPS del momento (solo las coordenadas, sin la precision) y ya no la "Coordenadas del sitio".
+  Si hay un GPS de menos de 8 segundos lo usa; si no, pide uno nuevo. Sin senal, la foto queda con "GPS no disponible" y la app avisa.
+- "Coordenadas del sitio" se sigue llenando con el GPS en vivo y se usa solo en los campos del formato (etiqueta, pruebas, filas de coordenadas).
+- Aplica a 7K, ODH, AMRTX y a la biblioteca de fotos. Las capturas de pantalla siguen sin marca.
+
+NOVEDAD: Camara GPS nativa (plugin GpsCam)
+- Nueva pantalla de camara hecha en Android (CameraX): muestra el GPS en vivo con la precision, y la foto sale ya
+  marcada con IB y sede, coordenadas y la hora exacta de la captura (la precision solo se ve en pantalla). El GPS tambien se guarda en el EXIF.
+- Espera una precision de 30 m o mejor para habilitar "Capturar". Si no la logra, aparece "Capturar con precision baja".
+- La foto se reduce antes de abrirse (respeta la resolucion de Opciones), asi no se cierra la app con fotos grandes.
+- Opciones > Camara: elegir entre "Camara GPS (nativa de la app)" (por defecto en el APK) y "Camara del telefono", y
+  guardar o no una copia de cada foto en la galeria (Pictures/MinTIC).
+- Si el GPS parece simulado (ubicacion falsa), la app lo avisa. Si el plugin falla, ofrece usar la camara del telefono.
+- Archivos nuevos: native/CaptureGpsActivity.java, native/GpsCamPlugin.java, www/app-gpscam.js. El flujo de GitHub agrega
+  CameraX, la ubicacion de Google y la actividad (paso "Camara GPS nativa").
+  Si la compilacion falla por esto: borra esos dos .java, la linea registerPlugin(GpsCamPlugin.class) de
+  native/MainActivity.java, el paso "Camara GPS nativa" de .github/workflows/apk.yml y el script app-gpscam.js de index.html.
+- La resolucion de las fotos de la camara GPS depende de Opciones > Resolucion de fotos (por defecto 35 % = 448 px).
+  Sube ese porcentaje si necesitas fotos mas grandes.
+
+NOVEDAD: AMRTX-ODH y AMRTX-7K (libros maestros .xlsm)
+- En el inicio hay dos secciones nuevas, cada una con su propio formato original, su semilla y sus versiones:
+  AMRTX-ODH (5G_AMRTX_MI_Formato_base_V1.12, 289 sitios) y AMRTX-7K (Formato para adecuacion y mejoras de red AMRTX V5.4, 7.715 sitios).
+- La app lee el formulario del propio archivo (preguntas, instrucciones, listas desplegables, fotos y semilla).
+  Escribes el IB (o parte del nombre) y se completan los datos de la sede. Los campos calculados se muestran en pantalla.
+- El archivo que sale es el .xlsm ORIGINAL con las respuestas y las fotos. No se toca nada mas: hojas, formulas,
+  macros y formato quedan iguales (la app solo escribe en las columnas Dato y Evidencia y en la observacion general).
+  Al abrirlo en Excel se calcula solo; las macros (GuardarAMRTX y GuardarMP) se corren en Excel, como siempre.
+- Nombre del archivo: el mismo que arma el formato en la celda F6 (por ejemplo: AMRTX INMEL IDBen_<IB>-<IM>-<ddmmaaaa>.xlsm).
+- Actualizar formato: boton "Actualizar formato" en cada seccion. Subes la version nueva (.xlsm) y la app muestra que cambio
+  (preguntas nuevas, eliminadas, modificadas, semilla) antes de instalarla. Los trabajos ya empezados siguen con la version
+  con la que empezaron; los nuevos usan la nueva. Si la estructura cambia demasiado, la app no instala el archivo y avisa.
+- Archivos nuevos: www/master.js, www/masters-data.js, www/app-master.js. Cambios minimos en lo existente: xl.js (opciones del motor),
+  app-photos.js (fotos AMRTX), app-screens.js (historial) e index.html.
+- La copia de seguridad (Opciones) guarda los trabajos y las fotos, no las versiones de formato subidas: si restauras en
+  otro equipo, vuelve a subir la version nueva desde "Actualizar formato".
+
+NOVEDAD: ODH (programa aparte de 7K)
+- En el inicio hay dos secciones: "7K" (los tres formatos de siempre, sin cambios) y "ODH".
+- ODH trae su propia semilla (Semilla_ODH.xlsx, 289 sedes): al escribir el IB se completan resolucion, ID CLARO,
+  codigos DANE, nombre de la institucion y de la sede.
+- ODH tiene por ahora el formato Correctivo MTI-F08. Nombre del archivo:
+  IDBen_<IB>-IM<caso>-<DD-MM-AAAA>_Notificacion_de_mantenimiento_Correctivo_del_Contratista.xlsx
+- Archivos nuevos: www/semilla-odh.js, www/eq-odh.js, www/templates-odh.js, www/forms-odh.js, www/app-odh.js.
+- Cambios minimos en lo existente: xl.js (opcion de fuente por plantilla), app-photos.js (ranuras de ODH),
+  app-screens.js (el historial muestra los archivos ODH) e index.html (scripts nuevos).
+
+APP MINTIC MANTENIMIENTOS v5 (preventivo MTIC-F27, correctivo MTIC-F40 y parada de reloj MTIC-F29)
+
+COMO OBTENER EL APK
+1. En tu repositorio de GitHub borra los archivos anteriores y sube TODO el contenido de esta carpeta
+   (incluidas la carpeta oculta .github y la carpeta native).
+2. Actions > "Generar APK" > Run workflow. Tarda unos 5 a 8 minutos.
+3. Descarga mtic-apk, pasa app-debug.apk al celular e instalalo.
+   Desinstala antes la version anterior (cada APK de GitHub lleva una firma distinta).
+   La primera vez acepta los permisos de camara y ubicacion.
+
+NOVEDADES V5
+- Lector de QR y codigos de barras nativo (ZXing, com.journeyapps:zxing-android-embedded 4.3.0). Se usa en el
+  inicio y en cada campo de serial. Abre en vertical, con sonido y linterna. Si el lector nativo no esta
+  disponible, la app usa el lector anterior como respaldo.
+- La version minima de Android pasa a 7.0 (API 24), requisito de la libreria.
+- Archivos nuevos en native/: ScanPlugin.java y CaptureActivityPortrait.java. El flujo de GitHub agrega las
+  dependencias, el permiso y la actividad del lector (paso "Lector de codigos").
+  Si la compilacion falla por este lector: borra native/ScanPlugin.java, native/CaptureActivityPortrait.java,
+  la linea registerPlugin(ScanPlugin.class) de native/MainActivity.java y el paso "Lector de codigos" de
+  .github/workflows/apk.yml. La app seguira usando el lector anterior.
+
+NOVEDADES V4
+- Nuevo formato: Parada de reloj (hasta 4 paradas; cada causa solo se puede usar una vez porque la plantilla
+  tiene una fila por causa; marca la casilla del numero de parada). Nombre: IDBen_<ID>-IM<caso>-<aaaa-mm-dd>_Paradas_de_Reloj.xlsx
+- Al inicio de cada formato eliges si las fotos van sobre las celdas o dentro de la celda.
+- En pruebas necesarias del correctivo, los espacios que son solo capturas solo permiten subir la imagen (sin marca de agua).
+- Todos los espacios de foto tienen boton N/A y ese N/A se inserta como imagen en el Excel.
+- Texto en negro, fuente Calibri y alineaciones corregidas en los Excel exportados.
+
+NOVEDADES V3
+- Inicio: escribes el IB y eliges Solo preventivo, Solo correctivo o los dos. El IB se usa en todo el formato.
+  Con los dos se muestra el preventivo y se le anexan los apartados del correctivo; al final generas los dos
+  Excel. Las fotos de pruebas que ya tomaste en el preventivo se reutilizan en el correctivo.
+- Registro de sitios: por IB y, dentro de cada IB, por tipo (preventivo o correctivo). Cada Excel exportado
+  queda guardado ahi para compartirlo de nuevo.
+- Opciones: perfil (se aplica solo a los datos del tecnico), camara (app integrada, camara del telefono o una
+  de las apps de camara instaladas), tamano de fotos (original o porcentaje), backup completo (exportar y
+  cargar), limpiar cache y limpieza total.
+- Lector de QR y codigos de barras: en el inicio y en cada campo de serial (boton Escanear). Tambien se
+  puede escribir a mano o leer desde una imagen.
+- GPS en vivo: la app lee las coordenadas del telefono sola y las usa en la marca de agua de cada foto.
+
+NOTA SOBRE LA LISTA DE APPS DE CAMARA
+La lista de apps instaladas y la apertura de una app de camara concreta usan un plugin nativo
+(carpeta native/, lo copia el flujo de GitHub). Si el flujo falla en el paso de compilacion por ese
+plugin, borra la carpeta native y las lineas "Plugin nativo de camara" del archivo .github/workflows/apk.yml:
+la app sigue funcionando con la camara integrada y la del telefono.
+
+PLANTILLAS Y SEMILLA
+- Plantillas: www/templates.js (Excel en base64, claves prev, corr y par).
+- Semilla: www/semilla.js (ID -> municipio, departamento, centro poblado, sede, ID MinTIC).
